@@ -3,6 +3,11 @@
 <main class="p-8">
     <section class="max-w-3xl mx-auto bg-white p-6 rounded shadow-md">
         <h2 class="text-2xl font-bold mb-4">Sobre o Streamly</h2>
+
+        @if(session('usuario'))
+            <p class="mb-4">Olá, {{ session('usuario') }}! Seja bem-vindo(a) ao Streamly.</p>
+        @endif
+
         <div class="prose">
             <p><strong>Streamly</strong> nasceu da vontade de celebrar o cinema como experiência cultural. Mais do que uma coleção de títulos, Streamly foi idealizado como um espaço para preservar memórias de sessão, recomendações e pequenos comentários pessoais — um lugar onde quem ama filmes pode olhar, lembrar e partilhar sentimentos sobre as obras que marcaram sua trajetória.</p>
 

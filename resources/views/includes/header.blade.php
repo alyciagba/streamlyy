@@ -4,6 +4,7 @@
 
 <header class="site-header flex justify-between items-center p-4 bg-gray-100">
     <span class="text-2xl font-bold tracking-wide">Streamly</span>
+     <link rel="stylesheet" href="{{ asset('public/css/styles.css') }}">
 
     <nav class="space-x-4">
         <a href="{{ url('/') }}" class="hover:underline">Home</a>

@@ -61,3 +61,4 @@ class ListaController extends Controller
         return back()->with('success', 'Filme removido da lista!');
     }
 }
+       

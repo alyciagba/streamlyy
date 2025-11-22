@@ -17,15 +17,18 @@ class Filme extends Model
         'poster',
     ];
 
-    // Relação com usuários (quem assistiu)
+    // Relacionamento Many-to-Many com usuários (quem assistiu)
     public function usuarios()
     {
-        return $this->belongsToMany(User::class)->withPivot('avaliacao','comentario')->withTimestamps();
+        return $this->belongsToMany(User::class)
+                    ->withPivot('avaliacao','comentario')
+                    ->withTimestamps();
     }
 
-    // Relação com listas
+    // Relacionamento Many-to-Many com listas
     public function listas()
     {
-        return $this->belongsToMany(Lista::class)->withTimestamps();
+        return $this->belongsToMany(Lista::class)
+                    ->withTimestamps();
     }
 }

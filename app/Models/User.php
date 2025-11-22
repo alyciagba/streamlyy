@@ -27,19 +27,22 @@ class User extends Authenticatable
         'data_nascimento' => 'date',
     ];
 
-    // Relacionamento com filmes (muitos-para-muitos)
+    // Relacionamento Many-to-Many com filmes
+    // Guarda nota e comentário no pivot
     public function filmes()
     {
-        return $this->belongsToMany(Filme::class)->withPivot('avaliacao','comentario')->withTimestamps();
+        return $this->belongsToMany(Filme::class)
+                    ->withPivot('avaliacao','comentario')
+                    ->withTimestamps();
     }
 
-    // Relacionamento com listas (um-para-muitos)
+    // Relacionamento One-to-Many com listas
     public function listas()
     {
         return $this->hasMany(Lista::class);
     }
 
-    // Ajusta o Auth do Laravel para usar o campo 'senha'
+    // Ajusta o Auth do Laravel para usar o campo 'senha' do banco
     public function getAuthPassword()
     {
         return $this->senha;

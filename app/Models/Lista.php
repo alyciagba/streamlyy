@@ -14,13 +14,16 @@ class Lista extends Model
         'nome',
     ];
 
+    // Uma lista pertence a um usuário
     public function user()
     {
         return $this->belongsTo(User::class);
     }
 
+    // Uma lista possui muitos filmes (Many-to-Many)
     public function filmes()
     {
-        return $this->belongsToMany(Filme::class)->withTimestamps();
+        return $this->belongsToMany(Filme::class)
+                    ->withTimestamps();
     }
 }

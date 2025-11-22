@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 
 class AuthController extends Controller
@@ -17,14 +18,14 @@ class AuthController extends Controller
     // Processa o login
     public function login(Request $request)
     {
-        $usuario = $request->input('usuario');
-        $senha = $request->input('senha');
+        $credentials = [
+            'name' => $request->input('usuario'),
+            'password' => $request->input('senha')
+        ];
 
-        $user = User::where('name', $usuario)->first();
-
-        if ($user && Hash::check($senha, $user->password)) {
-            $request->session()->put('usuario', $user->name);
-            return redirect('/');
+        if (Auth::attempt($credentials)) {
+            $request->session()->regenerate();
+            return redirect()->intended('/');
         }
 
         return back()->with('error', 'Usuário ou senha incorretos!');
@@ -39,24 +40,30 @@ class AuthController extends Controller
     // Processa o cadastro
     public function registrar(Request $request)
     {
-        if ($request->senha !== $request->confirmar) {
-            return back()->with('error', 'As senhas não coincidem!');
-        }
-
-        User::create([
-            'name' => $request->nome,
-            'email' => $request->email,
-            'nascimento' => $request->nascimento,
-            'password' => Hash::make($request->senha)
+        $request->validate([
+            'nome' => 'required|string|max:255',
+            'email' => 'required|email|unique:users,email',
+            'nascimento' => 'required|date',
+            'senha' => 'required|min:6|confirmed',
         ]);
 
-        return back()->with('success', 'Conta criada com sucesso!');
+        $user = User::create([
+            'nome' => $request->nome,
+            'email' => $request->email,
+            'data_nascimento' => $request->nascimento,
+            'senha' => Hash::make($request->senha)
+        ]);
+
+        Auth::login($user);
+        return redirect('/')->with('success', 'Conta criada e logada com sucesso!');
     }
 
     // Logout
     public function logout(Request $request)
     {
-        $request->session()->forget('usuario');
+        Auth::logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
         return redirect('/login');
     }
 }

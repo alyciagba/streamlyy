@@ -3,6 +3,10 @@
 <main class="contact-main p-8 max-w-4xl mx-auto">
     <h2 class="text-2xl font-bold mb-6">Contato dos Desenvolvedores</h2>
 
+    @if(session('usuario'))
+        <p class="mb-4">Olá, {{ session('usuario') }}! Aqui estão os contatos dos desenvolvedores:</p>
+    @endif
+
     <div class="contact-row flex flex-wrap gap-6">
         <div class="contact-person bg-white p-4 rounded shadow-md flex-1 min-w-[250px]">
             <img src="{{ asset('images/alycia2.jpg') }}" alt="Foto do Desenvolvedor 1" class="dev-photo mb-2 rounded">
