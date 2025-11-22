@@ -21,7 +21,7 @@
                 </div>
 
                 <button
-                    onclick="window.location.href='{{ url("/filmes/{$filmes['id']}") }}'"
+                    onclick="window.location.href='{{ url }}'"
                     class="mt-2 bg-blue-600 text-white px-4 py-1 rounded w-full">
                     Detalhes
                 </button>
