@@ -2,47 +2,46 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
 class User extends Authenticatable
 {
-    /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasFactory, Notifiable;
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var list<string>
-     */
     protected $fillable = [
-        'name',
+        'nome',
         'email',
-        'password',
+        'senha',
+        'data_nascimento',
+        'foto',
     ];
 
-    /**
-     * The attributes that should be hidden for serialization.
-     *
-     * @var list<string>
-     */
     protected $hidden = [
-        'password',
+        'senha',
         'remember_token',
     ];
 
-    /**
-     * Get the attributes that should be cast.
-     *
-     * @return array<string, string>
-     */
-    protected function casts(): array
+    protected $casts = [
+        'data_nascimento' => 'date',
+    ];
+
+    // Relacionamento com filmes (muitos-para-muitos)
+    public function filmes()
     {
-        return [
-            'email_verified_at' => 'datetime',
-            'password' => 'hashed',
-        ];
+        return $this->belongsToMany(Filme::class)->withPivot('avaliacao','comentario')->withTimestamps();
+    }
+
+    // Relacionamento com listas (um-para-muitos)
+    public function listas()
+    {
+        return $this->hasMany(Lista::class);
+    }
+
+    // Ajusta o Auth do Laravel para usar o campo 'senha'
+    public function getAuthPassword()
+    {
+        return $this->senha;
     }
 }
