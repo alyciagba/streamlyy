@@ -1,5 +1,5 @@
 <header class="site-header flex justify-between items-center p-4 bg-gray-100">
-    <span class="text-2xl font-bold tracking-wide">Streamly</span>
+    <span class="brand-title">Streamly</span>
     <link rel="stylesheet" href="{{ asset('css/styles.css') }}">
 
     <nav class="space-x-4 flex items-center">
@@ -9,22 +9,21 @@
         <a href="{{ url('/listas') }}" class="hover:underline">Listas</a>
         <a href="{{ url('/perfil') }}" class="hover:underline">Perfil</a>
 
-        @auth
-            @php $user = Auth::user(); @endphp
-            <form method="POST" action="{{ route('logout') }}" class="inline">
-                @csrf
-                <button type="submit" class="hover:underline bg-transparent border-0 p-0">Logout</button>
-            </form>
-            <span class="ml-3 flex items-center">
-                <img src="{{ asset('images/users/' . ($user->foto ?? 'perfil.png')) }}" alt="avatar" class="w-8 h-8 rounded-full mr-2 object-cover">
-                <span class="font-medium">{{ $user->name }}</span>
-            </span>
-        @endauth
-
         @guest
-            <a href="{{ url('/login') }}" class="hover:underline">Login</a>
+            <a href="{{ route('login') }}" class="hover:underline">Login</a>
             <a href="{{ route('cadastro') }}" class="hover:underline">Cadastro</a>
         @endguest
+
+        @auth
+            @php $user = Auth::user(); @endphp
+            <div class="flex items-center ml-3">
+                <span class="font-medium mr-4">{{ $user->name }}</span>
+                <form method="POST" action="{{ route('logout') }}" class="inline">
+                    @csrf
+                    <button type="submit" class="hover:underline bg-transparent border-0 p-0">Logout</button>
+                </form>
+            </div>
+        @endauth
     </nav>
 </header>
 

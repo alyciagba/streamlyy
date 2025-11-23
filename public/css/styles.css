@@ -92,7 +92,7 @@ button:hover {
 .movie-list {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-    gap: 2rem;
+    gap: 3rem; /* increased spacing between posters */
     margin: 2rem 0;
     width: 100%;
     max-width: 1400px;
@@ -126,6 +126,12 @@ button:hover {
     color: #e0e6f0;
     border: 1px solid #233a6a;
 }
+.form-input {
+    padding: 0.625rem 0.75rem;
+    border: 1px solid #e2e8f0;
+    background: #fff;
+    box-shadow: inset 0 1px 0 rgba(0,0,0,0.02);
+}
 
 .contact-main {
     max-width: 600px;
@@ -136,6 +142,64 @@ button:hover {
     border-radius: 12px;
     text-align: center;
 }
+
+/* Listas page specific */
+.listas-section {
+    border: 2px solid #233a6a; /* stronger border */
+    padding: 2rem; /* ensure slightly larger padding */
+}
+.listas-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1rem;
+}
+.lista-card {
+    background: linear-gradient(180deg,#0f1724 0%, #142033 100%);
+    border: 1px solid rgba(126,203,255,0.08);
+    padding: 1rem;
+    border-radius: 10px;
+    box-shadow: 0 6px 18px rgba(2,6,23,0.6);
+    color: #e6f2ff;
+}
+.lista-card .lista-header { display:flex; justify-content:space-between; align-items:center; gap:0.5rem; }
+.lista-card .lista-meta { color:#9fbfe6; font-size:0.9rem; }
+.lista-divider { height:1px; background: linear-gradient(90deg, transparent, rgba(126,203,255,0.06), transparent); margin: 0.75rem 0; }
+.lista-actions { display:flex; gap:0.5rem; align-items:center; }
+.lista-empty { color:#9fbfe6; font-size:0.95rem; }
+.lista-add-form .form-input { background: #081223; color: #e6f2ff; border: 1px solid #233a6a; }
+.lista-add-form .btn { padding:0.45rem 0.8rem; }
+.listas-guest {
+    text-align: center;
+}
+
+/* Button utilities used across pages */
+.btn {
+    display: inline-block;
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+    background: #0b3b82; /* dark blue */
+    color: #ffffff;
+    text-align: center;
+    border: none;
+    cursor: pointer;
+    text-decoration: none;
+    font-weight: 700;
+    transition: background 0.18s, color 0.18s, transform 0.12s;
+}
+.btn:active { transform: translateY(1px); }
+.btn-primary {
+    background: #0b3b82; /* dark blue (primary) */
+    color: #ffffff;
+    border: 2px solid #0b3b82;
+}
+.btn-primary:hover { background:#062a5d; border-color:#062a5d; }
+.btn-secondary {
+    background: #114b8b; /* slightly different dark blue (secondary) */
+    color: #ffffff;
+    border: 2px solid #0f3d77;
+}
+.btn-secondary:hover { background:#0c3769; border-color:#0c3769; }
+
 .contact-row { display:flex; justify-content:center; gap:2rem; align-items:center; margin:2rem 0; }
 .contact-person { text-align:center; }
 .dev-photo { width:120px; height:120px; border-radius:50%; object-fit:cover; background:#222; }
@@ -157,6 +221,18 @@ button:hover {
     display: flex;
     justify-content: space-between;
     align-items: center;
+}
+
+/* Brand title sizing (larger on desktop, moderate on mobile) */
+.brand-title {
+    font-size: 1.8rem; /* reduced further to be less dominant */
+    line-height: 1.05;
+    font-weight: 700;
+    letter-spacing: 0.25px;
+    color: #ffffff;
+}
+@media (max-width: 640px) {
+    .brand-title { font-size: 1.2rem; }
 }
 
 .hstack { display:flex; gap:0.5rem; align-items:center; margin-bottom:0.5rem; }
@@ -210,6 +286,33 @@ button:hover {
     margin: 0 auto;
     text-align: center;
 }
+.film-details .film-body {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+    align-items: start;
+}
+@media (min-width: 900px) {
+    .film-details .film-body {
+        grid-template-columns: 320px 1fr;
+    }
+    .film-details .poster { margin: 0; }
+    .film-details .film-info { text-align: left; }
+}
+.film-actions { display:flex; gap:0.75rem; flex-wrap:wrap; margin-top:1rem; justify-content:center; align-items:center; }
+.film-actions form { margin:0; display:inline-flex; align-items:center; gap:0.5rem; }
+.film-actions .form-input { min-width:120px; }
+
+/* Ensure the add-to-list form (below actions) is centered and compact */
+.film-info > .mt-3, .film-info .mt-3 { text-align: center; }
+.film-info .mt-3 form { display:inline-flex; gap:0.5rem; align-items:center; justify-content:center; }
+.film-info .mt-3 select.form-input { min-width:160px; }
+.film-info p { margin: 0.4rem 0; }
+.film-info .meta { color: #9fbfe6; margin-bottom: 0.6rem; }
+.film-title { font-size: 1.75rem; margin-bottom: 0.6rem; color: #e6f2ff; }
+.comment-card { background: rgba(255,255,255,0.02); padding:0.75rem; border-radius:8px; }
+.comment-author { font-weight:700; color:#cfe9ff; }
+.comment-meta { font-size:0.9rem; color:#9fbfe6; }
 .film-details .film-info p {
     margin: 0.5rem 0;
     color: #dfe7f8;

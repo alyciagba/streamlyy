@@ -2,10 +2,19 @@
 
 <main class="p-8">
     <section id="profile-section" class="max-w-lg mx-auto bg-white p-6 rounded shadow-md">
-        <div class="flex items-center gap-4 mb-4">
-        <img src="{{ $fotoUsuario ? asset('images/users/' . $fotoUsuario) : asset('images/users/default.jpg') }}" 
-                alt="Foto do Usuário" class="avatar" />
-            <span id="profile-username" class="text-xl font-semibold">{{ $nomeUsuario ?? 'Convidado' }}</span>
+        @php
+            // Always show perfil.png on the perfil page when a user is logged in
+            if (Auth::check()) {
+                $avatarPath = url('images/users/perfil.png');
+            } else {
+                // For guests, use provided $fotoUsuario or default perfil.png as last resort
+                $avatar = $fotoUsuario ?? null;
+                $avatarPath = url('images/users/' . ($avatar ?? 'perfil.png'));
+            }
+        @endphp
+        <div class="text-center mb-4">
+            <img id="user-photo" src="{{ $avatarPath }}" alt="Foto do Usuário" class="avatar mx-auto mb-3" />
+            <div id="profile-username" class="text-xl font-semibold">{{ $nomeUsuario ?? (Auth::check() ? Auth::user()->name : 'Convidado') }}</div>
         </div>
 
         @if($nomeUsuario)
@@ -50,13 +59,14 @@
 
                 <div id="listas-container">
                     @foreach($listas as $lista)
-                        <div class="mb-2 p-2 border rounded">
-                            <strong>{{ $lista->nome }}</strong>
-                            <ul class="ml-4">
-                                @foreach($lista->filmes as $filme)
-                                    <li>{{ $filme->titulo }}</li>
-                                @endforeach
-                            </ul>
+                        <div class="mb-2 p-2 border rounded flex justify-between items-center">
+                            <div>
+                                <strong>{{ $lista->nome }}</strong>
+                                <div class="text-sm text-gray-600">{{ $lista->filmes->count() }} filmes</div>
+                            </div>
+                            <div>
+                                <a href="{{ url('/listas') }}" class="btn btn-secondary">Ver listas</a>
+                            </div>
                         </div>
                     @endforeach
                 </div>

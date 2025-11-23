@@ -2,7 +2,7 @@
 
 <main class="p-8">
     <h2 class="text-center text-4xl font-bold my-8">
-        Seja bem-vindo ao Streamly, {{ $usuario ?? 'Convidado' }}!
+        Seja bem-vindo ao Streamly, {{ Auth::check() ? Auth::user()->name : ($usuario ?? 'Convidado') }}!
     </h2>
 
     <div id="filmes-container" class="movie-list grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">

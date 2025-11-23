@@ -1,7 +1,8 @@
 @include('includes.header')
 
-<main class="p-8 flex justify-center">
-    <form id="formLogin" method="POST" action="{{ route('login.submit') }}" class="bg-white p-6 rounded shadow-md w-full max-w-md">
+<main class="p-8">
+    <section id="login-section">
+        <form id="formLogin" method="POST" action="{{ route('login.submit') }}" class="w-full bg-white p-6 rounded shadow-md max-w-md mx-auto">
         @csrf
         <h2 class="text-2xl font-bold mb-4 text-center">Login</h2>
 
@@ -12,15 +13,16 @@
 
         {{-- Email --}}
         <label for="email" class="block mb-1">Email:</label>
-        <input type="email" name="email" id="email" value="{{ old('email') }}" required class="w-full mb-3 p-2 border rounded">
+        <input type="email" name="email" id="email" value="{{ old('email') }}" required class="form-input w-full mb-3">
 
         {{-- Senha --}}
         <label for="senha" class="block mb-1">Senha:</label>
-        <input type="password" name="senha" id="senha" required class="w-full mb-4 p-2 border rounded">
+        <input type="password" name="senha" id="senha" required class="form-input w-full mb-4">
 
         {{-- Botão --}}
-        <button type="submit" class="w-full bg-blue-600 text-white py-2 rounded">Entrar</button>
-    </form>
+        <button type="submit" class="btn btn-primary w-full">Entrar</button>
+        </form>
+    </section>
 </main>
 
 @include('includes.footer')

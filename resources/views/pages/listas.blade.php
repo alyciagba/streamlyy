@@ -1,54 +1,67 @@
 @include('includes.header')
 
 <main class="p-8">
-    <section class="max-w-3xl mx-auto bg-white p-6 rounded shadow-md">
+    <section class="max-w-3xl mx-auto bg-white p-6 rounded shadow-md listas-section">
         <h2 class="text-2xl font-bold mb-4">Suas Listas de Filmes</h2>
 
         @auth
-            @forelse($listas as $lista)
-                <div class="p-3 bg-gray-100 rounded shadow mb-4">
-                    {{-- Cabeçalho da lista --}}
-                    <div class="flex justify-between items-center mb-2">
-                        <strong>{{ $lista->nome }}</strong>
-                        <form method="POST" action="{{ route('listas.destroy', $lista->id) }}">
+            @if($listas->isEmpty())
+                <p>Você ainda não criou nenhuma lista.</p>
+            @else
+                <div class="listas-grid">
+                @foreach($listas as $lista)
+                    <div class="lista-card">
+                        <div class="lista-header">
+                            <div>
+                                <strong class="list-title">{{ $lista->nome }}</strong>
+                                <div class="lista-meta">{{ $lista->filmes->count() }} filmes</div>
+                            </div>
+                            <div class="lista-actions">
+                                <form method="POST" action="{{ route('listas.destroy', $lista->id) }}">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="btn btn-del">Excluir</button>
+                                </form>
+                            </div>
+                        </div>
+                        <div class="lista-divider"></div>
+
+                        @if($lista->filmes->isEmpty())
+                            <p class="lista-empty">Nenhum filme nesta lista.</p>
+                        @else
+                            <ul class="list-ul">
+                                @foreach($lista->filmes as $filme)
+                                    <li class="list-li">
+                                        <div class="left">
+                                            <span>{{ $filme->titulo }}</span>
+                                        </div>
+                                        <div class="right">
+                                            <a href="{{ route('filmes.detalhes', $filme->id) }}" class="btn btn-small btn-secondary" title="Ver detalhes">Detalhes</a>
+                                            <form method="POST" action="{{ route('listas.removeFilme', $lista->id) }}" style="display:inline-block; margin-left:0.5rem;">
+                                                @csrf
+                                                <input type="hidden" name="filme_id" value="{{ $filme->id }}">
+                                                <button type="submit" class="btn btn-small btn-del">Remover</button>
+                                            </form>
+                                        </div>
+                                    </li>
+                                @endforeach
+                            </ul>
+                        @endif
+
+                        <div class="lista-divider"></div>
+                        <form method="POST" action="{{ route('listas.addFilme', $lista) }}" class="lista-add-form flex gap-2 mt-2">
                             @csrf
-                            @method('DELETE')
-                            <button type="submit" class="text-red-600 hover:underline">Excluir</button>
+                            <select name="filme_id" class="form-input p-2 border rounded flex-grow">
+                                @foreach($todosFilmes as $filme)
+                                    <option value="{{ $filme->id }}">{{ $filme->titulo }}</option>
+                                @endforeach
+                            </select>
+                            <button type="submit" class="btn btn-primary">Adicionar</button>
                         </form>
                     </div>
-
-                    {{-- Filmes da lista --}}
-                    @if($lista->filmes->isEmpty())
-                        <p class="text-sm text-gray-600">Nenhum filme nesta lista.</p>
-                    @else
-                        <ul class="ml-4 list-disc">
-                            @foreach($lista->filmes as $filme)
-                                <li class="flex justify-between items-center mb-1">
-                                    {{ $filme->titulo }}
-                                    <form method="POST" action="{{ route('listas.removeFilme', $lista->id) }}">
-                                        @csrf
-                                        <input type="hidden" name="filme_id" value="{{ $filme->id }}">
-                                        <button type="submit" class="text-red-600 hover:underline text-sm">Remover</button>
-                                    </form>
-                                </li>
-                            @endforeach
-                        </ul>
-                    @endif
-
-                    {{-- Adicionar filme à lista --}}
-                    <form method="POST" action="{{ route('listas.addFilme', $lista) }}" class="flex gap-2 mt-2">
-                        @csrf
-                        <select name="filme_id" class="form-input p-2 border rounded flex-grow">
-                            @foreach($todosFilmes as $filme)
-                                <option value="{{ $filme->id }}">{{ $filme->titulo }}</option>
-                            @endforeach
-                        </select>
-                        <button type="submit" class="bg-blue-600 text-white px-3 py-1 rounded">Adicionar Filme</button>
-                    </form>
+                @endforeach
                 </div>
-            @empty
-                <p>Você ainda não criou nenhuma lista.</p>
-            @endforelse
+            @endif
 
             {{-- Criar nova lista --}}
             <form method="POST" action="{{ route('listas.store') }}" class="flex gap-2 mt-4">
@@ -57,11 +70,11 @@
                 <button type="submit" class="bg-green-600 text-white px-3 py-1 rounded">Criar Lista</button>
             </form>
         @else
-            <div class="p-6 bg-white rounded shadow">
+            <div class="p-6 bg-white rounded shadow listas-guest">
                 <p class="mb-4">Você precisa fazer login ou se registrar para acessar suas listas pessoais.</p>
                 <div class="flex gap-3">
-                    <a href="{{ url('/login') }}" class="bg-blue-600 text-white px-4 py-2 rounded">Entrar</a>
-                    <a href="{{ route('cadastro') }}" class="bg-gray-200 text-gray-800 px-4 py-2 rounded">Cadastrar-se</a>
+                    <a href="{{ url('/login') }}" class="btn btn-primary">Entrar</a>
+                    <a href="{{ route('cadastro') }}" class="btn btn-secondary">Cadastrar-se</a>
                 </div>
             </div>
         @endauth
