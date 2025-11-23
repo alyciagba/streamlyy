@@ -1,7 +1,7 @@
 @include('includes.header')
 
 <main class="p-8">
-    <section class="max-w-6xl mx-auto bg-white p-12 lg:p-16 rounded shadow-md">
+    <section class="max-w-7xl mx-auto bg-white p-16 lg:p-20 rounded shadow-md">
         <h2 class="text-2xl font-bold mb-4">Sobre o Streamly</h2>
 
         @if(session('usuario'))

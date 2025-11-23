@@ -66,7 +66,10 @@
                         <ul class="space-y-2">
                             @foreach($filme->usuarios as $usuario)
                                 <li class="comment-card">
-                                    <div class="comment-author">{{ $usuario->nome }}</div>
+                                    @php
+                                        $commentAuthor = $usuario->name ?? $usuario->nome ?? 'Usuário';
+                                    @endphp
+                                    <div class="comment-author">{{ $commentAuthor }}</div>
                                     <div class="comment-meta">Nota: {{ $usuario->pivot->avaliacao ?? 'N/A' }} ★</div>
                                     <div class="mt-2">{{ $usuario->pivot->comentario ?? '-' }}</div>
                                 </li>
