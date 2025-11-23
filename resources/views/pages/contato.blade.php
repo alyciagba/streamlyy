@@ -9,7 +9,7 @@
 
     <div class="contact-row flex flex-wrap gap-6">
         <div class="contact-person bg-white p-4 rounded shadow-md flex-1 min-w-[250px]">
-            <img src="{{ asset('images/alycia2.jpg') }}" alt="Foto do Desenvolvedor 1" class="dev-photo mb-2 rounded">
+            <img src="{{ asset('images/developers/alycia2.jpg') }}" alt="Foto de Alycia Tasla" class="dev-photo mb-2 rounded">
             <h3 class="section-heading text-lg font-semibold mb-1">Alycia Tasla</h3>
             <p class="contact-desc mb-2">Programadora responsável pelo desenvolvimento do site.</p>
             <a class="contact-link text-blue-600 hover:underline" href="mailto:alycia.tasla.gba@email.com">Email</a> |
@@ -17,7 +17,7 @@
         </div>
 
         <div class="contact-person bg-white p-4 rounded shadow-md flex-1 min-w-[250px]">
-            <img src="{{ asset('images/evely.jpg') }}" alt="Foto do Desenvolvedor 2" class="dev-photo mb-2 rounded">
+            <img src="{{ asset('images/developers/evely.jpg') }}" alt="Foto de Evely Thamires" class="dev-photo mb-2 rounded">
             <h3 class="section-heading text-lg font-semibold mb-1">Evely Thamires</h3>
             <p class="contact-desc mb-2">Gestora de ideias e responsável pela concepção do projeto.</p>
             <a class="contact-link text-blue-600 hover:underline" href="mailto:evelythamires001@email.com">Email</a> |

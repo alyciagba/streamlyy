@@ -10,9 +10,9 @@
             <p class="text-red-600 mb-4">{{ session('error') }}</p>
         @endif
 
-        {{-- Usuário --}}
-        <label for="usuario" class="block mb-1">Usuário:</label>
-        <input type="text" name="usuario" id="usuario" value="{{ old('usuario') }}" required class="w-full mb-3 p-2 border rounded">
+        {{-- Email --}}
+        <label for="email" class="block mb-1">Email:</label>
+        <input type="email" name="email" id="email" value="{{ old('email') }}" required class="w-full mb-3 p-2 border rounded">
 
         {{-- Senha --}}
         <label for="senha" class="block mb-1">Senha:</label>

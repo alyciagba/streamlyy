@@ -28,11 +28,11 @@
 
         {{-- Senha --}}
         <label class="block mb-1">Senha:</label>
-        <input type="password" name="senha" required minlength="4" class="w-full mb-3 p-2 border rounded">
+        <input type="password" name="senha" required minlength="6" class="w-full mb-3 p-2 border rounded">
 
         {{-- Confirmação --}}
         <label class="block mb-1">Confirmar senha:</label>
-        <input type="password" name="confirmar" required minlength="4" class="w-full mb-4 p-2 border rounded">
+        <input type="password" name="senha_confirmation" required minlength="6" class="w-full mb-4 p-2 border rounded">
 
         <button class="w-full bg-blue-600 text-white py-2 rounded">Cadastrar</button>
     </form>

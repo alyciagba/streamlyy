@@ -40,11 +40,12 @@
                 <h3 class="text-lg font-semibold mb-2">Suas Listas</h3>
 
                 <div class="flex gap-2 mb-4">
-                    <input id="nova-lista-nome" type="text" placeholder="Nome da nova lista" 
-                           class="form-input p-2 border rounded w-full" />
-                    <button id="criar-lista-btn" class="bg-blue-600 text-white px-3 py-1 rounded">
-                        Criar lista
-                    </button>
+                    <form method="POST" action="{{ route('listas.store') }}" class="flex gap-2 w-full">
+                        @csrf
+                        <input name="nome" type="text" placeholder="Nome da nova lista" 
+                               class="form-input p-2 border rounded flex-grow" required />
+                        <button type="submit" class="bg-blue-600 text-white px-3 py-1 rounded">Criar lista</button>
+                    </form>
                 </div>
 
                 <div id="listas-container">

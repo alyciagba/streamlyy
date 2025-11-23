@@ -1,17 +1,59 @@
 @include('includes.header')
 
 <main class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
-    <div class="bg-[#1a2a40] p-6 rounded-lg shadow-md">
+    <div class="bg-[#1a2a40] p-6 rounded-lg shadow-md film-details">
         <div class="text-center">
             <h2 class="text-3xl font-bold mb-4 text-white">{{ $filme->titulo }}</h2>
-            <img src="{{ asset('images/posters/' . $filme->poster) }}" 
-                 class="mx-auto object-contain h-auto max-h-[500px] mb-4 rounded-lg shadow-md" 
-                 alt="Poster do filme">
+            @php
+                $posterRaw = data_get($filme, 'poster');
+                $posterBase = $posterRaw ? preg_replace('/^images\//', '', $posterRaw) : null;
+                $posterCandidates = [];
+                if ($posterBase) {
+                    $posterCandidates[] = $posterBase;
+                    $posterCandidates[] = $posterBase . '.jpg';
+                    $posterCandidates[] = $posterBase . '.png';
+                    $posterCandidates[] = $posterBase . '.avif';
+                    $posterCandidates[] = $posterBase . '.jpg.jpg';
+                    $posterCandidates[] = preg_replace('/\.[^.]+$/', '.jpg', $posterBase);
+                }
+
+                $poster = null;
+                foreach ($posterCandidates as $cand) {
+                    if ($cand && file_exists(public_path('images/posters/' . $cand))) {
+                        $poster = $cand;
+                        break;
+                    }
+                }
+
+                if (!$poster) {
+                    if (file_exists(public_path('images/posters/default.svg'))) {
+                        $poster = 'default.svg';
+                    } else {
+                        $all = glob(public_path('images/posters/*')) ?: [];
+                        $poster = !empty($all) ? basename($all[0]) : null;
+                    }
+                }
+            @endphp
+
+            @if($poster)
+                <img src="{{ asset('images/posters/' . $poster) }}"
+                     class="poster mb-4 rounded-lg shadow-md"
+                     alt="Poster do filme">
+            @else
+                <div class="mx-auto w-full h-80 bg-gray-700 rounded flex items-center justify-center text-white">Sem imagem</div>
+            @endif
         </div>
 
-        <p class="mb-4 text-gray-200">{{ $filme->diretor }}</p>
-        <p class="mb-4 text-gray-200">{{ $filme->anolancamento }}</p>
-        <p class="mb-4 text-gray-200">{{ $filme->descricao }}</p>
+        <div class="film-info">
+            @php
+                $ano = data_get($filme, 'ano_lancamento') ?? data_get($filme, 'anolancamento') ?? '';
+            @endphp
+            <p class="mb-4 text-gray-200">{{ $filme->diretor }}</p>
+            @if($ano)
+                <p class="mb-4 text-gray-200">{{ $ano }}</p>
+            @endif
+            <p class="mb-4 text-gray-200">{{ $filme->descricao }}</p>
+        </div>
 
         {{-- Formulários de interação --}}
         @auth
@@ -33,6 +75,22 @@
                         Rankear
                     </button>
                 </form>
+                
+                {{-- Adicionar a uma lista existente --}}
+                @if(!$userListas->isEmpty())
+                    <form method="POST" action="{{ route('listas.addFilme.generic') }}" class="flex gap-2 items-center">
+                        @csrf
+                        <input type="hidden" name="filme_id" value="{{ $filme->id }}">
+                        <select name="lista_id" class="p-1 border rounded">
+                            @foreach($userListas as $l)
+                                <option value="{{ $l->id }}">{{ $l->nome }}</option>
+                            @endforeach
+                        </select>
+                        <button class="bg-green-600 text-white px-3 py-1 rounded">Adicionar à lista</button>
+                    </form>
+                @else
+                    <p class="text-sm text-gray-300">Você ainda não tem listas. <a href="{{ url('/listas') }}" class="text-blue-400 underline">Criar uma</a></p>
+                @endif
             </div>
         @endauth
 

@@ -4,7 +4,7 @@
     <section class="max-w-3xl mx-auto bg-white p-6 rounded shadow-md">
         <h2 class="text-2xl font-bold mb-4">Suas Listas de Filmes</h2>
 
-        @if($nomeUsuario)
+        @auth
             @forelse($listas as $lista)
                 <div class="p-3 bg-gray-100 rounded shadow mb-4">
                     {{-- Cabeçalho da lista --}}
@@ -27,7 +27,6 @@
                                     {{ $filme->titulo }}
                                     <form method="POST" action="{{ route('listas.removeFilme', $lista->id) }}">
                                         @csrf
-                                        @method('DELETE')
                                         <input type="hidden" name="filme_id" value="{{ $filme->id }}">
                                         <button type="submit" class="text-red-600 hover:underline text-sm">Remover</button>
                                     </form>
@@ -37,7 +36,7 @@
                     @endif
 
                     {{-- Adicionar filme à lista --}}
-                    <form method="POST" action="{{ route('listas.addFilme', $lista->id) }}" class="flex gap-2 mt-2">
+                    <form method="POST" action="{{ route('listas.addFilme', $lista) }}" class="flex gap-2 mt-2">
                         @csrf
                         <select name="filme_id" class="form-input p-2 border rounded flex-grow">
                             @foreach($todosFilmes as $filme)
@@ -58,10 +57,14 @@
                 <button type="submit" class="bg-green-600 text-white px-3 py-1 rounded">Criar Lista</button>
             </form>
         @else
-            <p>Você precisa estar logado para gerenciar listas. 
-                <a href="{{ url('/login') }}" class="text-blue-600 hover:underline">Entrar</a>
-            </p>
-        @endif
+            <div class="p-6 bg-white rounded shadow">
+                <p class="mb-4">Você precisa fazer login ou se registrar para acessar suas listas pessoais.</p>
+                <div class="flex gap-3">
+                    <a href="{{ url('/login') }}" class="bg-blue-600 text-white px-4 py-2 rounded">Entrar</a>
+                    <a href="{{ route('cadastro') }}" class="bg-gray-200 text-gray-800 px-4 py-2 rounded">Cadastrar-se</a>
+                </div>
+            </div>
+        @endauth
     </section>
 </main>
 

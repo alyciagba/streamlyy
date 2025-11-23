@@ -18,8 +18,9 @@ class AuthController extends Controller
     // Processa o login
     public function login(Request $request)
     {
+        // Login by email + password
         $credentials = [
-            'name' => $request->input('usuario'),
+            'email' => $request->input('email'),
             'password' => $request->input('senha')
         ];
 
@@ -48,10 +49,10 @@ class AuthController extends Controller
         ]);
 
         $user = User::create([
-            'nome' => $request->nome,
+            'name' => $request->nome,
             'email' => $request->email,
             'data_nascimento' => $request->nascimento,
-            'senha' => Hash::make($request->senha)
+            'password' => Hash::make($request->senha)
         ]);
 
         Auth::login($user);

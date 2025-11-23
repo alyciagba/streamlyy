@@ -92,7 +92,7 @@ button:hover {
 .movie-list {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-    gap: 1.5rem;
+    gap: 2rem;
     margin: 2rem 0;
     width: 100%;
     max-width: 1400px;
@@ -191,7 +191,32 @@ button:hover {
     transition: filter 0.2s;
 }
 
+/* Film details page styling */
+.film-details {
+    max-width: 900px;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+}
+.film-details .poster {
+    width: 320px;
+    height: 480px;
+    object-fit: cover;
+    display: block;
+    margin: 0 auto 1rem;
+}
+.film-details .film-info {
+    max-width: 760px;
+    margin: 0 auto;
+    text-align: center;
+}
+.film-details .film-info p {
+    margin: 0.5rem 0;
+    color: #dfe7f8;
+}
+
 .movie-card button,
+.movie-card a.detalhes,
 button.detalhes {
     background: #060d23;
     color: #e0e6f0;
@@ -204,9 +229,17 @@ button.detalhes {
     margin-top: 0.5rem;
 }
 .movie-card button:hover,
+.movie-card a.detalhes:hover,
 button.detalhes:hover {
     background: #233a6a;
     color: #7ecbff;
+}
+
+/* make anchor look like a button when using the detalhes class */
+.movie-card a.detalhes {
+    display: inline-block;
+    text-decoration: none;
+    text-align: center;
 }
 
 #user-photo {

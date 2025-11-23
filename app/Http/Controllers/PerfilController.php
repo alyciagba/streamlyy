@@ -15,7 +15,8 @@ class PerfilController extends Controller
         $listas = $user->listas()->with('filmes')->get();
 
         return view('pages.perfil', [
-            'nomeUsuario' => $user->nome,
+            // use the standard 'name' attribute (was migrated from 'nome')
+            'nomeUsuario' => $user->name,
             'fotoUsuario' => $user->foto ?? 'default.jpg',
             'filmesAssistidos' => $filmesAssistidos,
             'listas' => $listas

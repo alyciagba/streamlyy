@@ -11,15 +11,15 @@ class User extends Authenticatable
     use HasFactory, Notifiable;
 
     protected $fillable = [
-        'nome',
+        'name',
         'email',
-        'senha',
+        'password',
         'data_nascimento',
         'foto',
     ];
 
     protected $hidden = [
-        'senha',
+        'password',
         'remember_token',
     ];
 
@@ -45,6 +45,6 @@ class User extends Authenticatable
     // Ajusta o Auth do Laravel para usar o campo 'senha' do banco
     public function getAuthPassword()
     {
-        return $this->senha;
+        return $this->password;
     }
 }
