@@ -4,8 +4,8 @@
     <section class="max-w-7xl mx-auto bg-white p-16 lg:p-20 rounded shadow-md">
         <h2 class="text-2xl font-bold mb-4">Sobre o Streamly</h2>
 
-        @if(session('usuario'))
-            <p class="mb-4">Olá, {{ session('usuario') }}! Seja bem-vindo(a) ao Streamly.</p>
+        @if(Auth::check())
+            <p class="mb-4">Olá, {{ Auth::user()->name }}! Seja bem-vindo(a) ao Streamly.</p>
         @endif
 
         <div class="prose">

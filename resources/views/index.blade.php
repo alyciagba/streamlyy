@@ -70,7 +70,7 @@
 
             <div class="movie-card bg-white p-4 rounded shadow flex flex-col items-center text-center">
                 @if($poster)
-                    <a href="{{ route('filmes.detalhes', $filmeId) }}" class="w-full block mb-3">
+                    <a href="{{ route('filmes.detalhes', $filmeId, false) }}" class="w-full block mb-3">
                         <img src="{{ asset('images/posters/' . $poster) }}" alt="Capa de {{ $titulo }}" class="w-full h-48 object-cover rounded">
                     </a>
                 @endif
@@ -84,7 +84,7 @@
                     @endfor
                 </div>
 
-                <a href="{{ route('filmes.detalhes', $filmeId) }}" class="detalhes mt-3 block bg-blue-600 text-white px-4 py-1 rounded text-center">Detalhes</a>
+                <a href="{{ route('filmes.detalhes', $filmeId, false) }}" class="detalhes mt-3 block bg-blue-600 text-white px-4 py-1 rounded text-center">Detalhes</a>
             </div>
         @endforeach
     </div>

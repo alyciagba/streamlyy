@@ -5,6 +5,10 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Lista;
 use App\Models\Filme;
+use App\Http\Requests\StoreListaRequest;
+use App\Http\Requests\UpdateListaRequest;
+use App\Http\Requests\AddFilmeToListRequest;
+use Illuminate\Support\Facades\Auth;
 
 class ListaController extends Controller
 {
@@ -36,41 +40,27 @@ class ListaController extends Controller
      * Add a film to a list by generic params (lista_id + filme_id).
      * This is used by the film details page where the target list is selected via a dropdown.
      */
-    public function addFilmeToList(Request $request)
+    public function addFilmeToList(AddFilmeToListRequest $request)
     {
-        $request->validate([
-            'lista_id' => 'required|integer|exists:listas,id',
-            'filme_id' => 'required|integer|exists:filmes,id',
-        ]);
-
         $lista = Lista::findOrFail($request->lista_id);
-        $user = auth()->user();
-        if ($lista->user_id !== $user->id) {
-            abort(403);
-        }
+        $this->authorize('addFilme', $lista);
 
         $lista->filmes()->syncWithoutDetaching([$request->filme_id]);
 
         return back()->with('success', 'Filme adicionado à lista!');
     }
 
-    public function store(Request $request)
+    public function store(StoreListaRequest $request)
     {
-        $request->validate(['nome' => 'required|string|max:255']);
-
-        $user = auth()->user();
+        $user = Auth::user();
         $user->listas()->create(['nome' => $request->nome]);
 
         return back()->with('success', 'Lista criada!');
     }
 
-    public function update(Request $request, Lista $lista)
+    public function update(UpdateListaRequest $request, Lista $lista)
     {
-        $user = auth()->user();
-        if ($lista->user_id !== $user->id) {
-            abort(403);
-        }
-        $request->validate(['nome' => 'required|string|max:255']);
+        $this->authorize('update', $lista);
 
         $lista->update(['nome' => $request->nome]);
         return back()->with('success', 'Lista atualizada!');
@@ -78,20 +68,14 @@ class ListaController extends Controller
 
     public function destroy(Lista $lista)
     {
-        $user = auth()->user();
-        if ($lista->user_id !== $user->id) {
-            abort(403);
-        }
+        $this->authorize('delete', $lista);
         $lista->delete();
         return back()->with('success', 'Lista removida!');
     }
 
     public function addFilme(Request $request, Lista $lista)
     {
-        $user = auth()->user();
-        if ($lista->user_id !== $user->id) {
-            abort(403);
-        }
+        $this->authorize('addFilme', $lista);
         $filmeId = $request->filme_id;
         $lista->filmes()->syncWithoutDetaching([$filmeId]);
         return back()->with('success', 'Filme adicionado à lista!');
@@ -99,10 +83,7 @@ class ListaController extends Controller
 
     public function removeFilme(Request $request, Lista $lista)
     {
-        $user = auth()->user();
-        if ($lista->user_id !== $user->id) {
-            abort(403);
-        }
+        $this->authorize('removeFilme', $lista);
         $filmeId = $request->filme_id;
         $lista->filmes()->detach($filmeId);
         return back()->with('success', 'Filme removido da lista!');

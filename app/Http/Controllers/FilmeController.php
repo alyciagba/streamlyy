@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Filme;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Requests\RankFilmeRequest;
 
 class FilmeController extends Controller
 {
@@ -35,13 +36,8 @@ class FilmeController extends Controller
         return back()->with('success', 'Filme adicionado como assistido.');
     }
 
-    public function rankear(Request $request, $id)
+    public function rankear(RankFilmeRequest $request, $id)
     {
-        $request->validate([
-            'avaliacao' => 'required|integer|min:1|max:5',
-            'comentario' => 'nullable|string|max:1000'
-        ]);
-
         $user = Auth::user();
         $filme = Filme::findOrFail($id);
 

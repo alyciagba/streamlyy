@@ -34,7 +34,7 @@
                                 <br>
                                 Comentário: {{ $filme->pivot->comentario ?? '-' }}
                                 <br>
-                                <button onclick="window.location.href='{{ route('filmes.detalhes', $filme->id) }}'" 
+                                <button onclick="window.location.href='{{ route('filmes.detalhes', $filme->id, false) }}'" 
                                         class="mt-1 bg-blue-600 text-white px-2 py-1 rounded text-sm">
                                     Ver detalhes
                                 </button>

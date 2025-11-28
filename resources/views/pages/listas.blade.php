@@ -36,7 +36,7 @@
                                             <span>{{ $filme->titulo }}</span>
                                         </div>
                                         <div class="right">
-                                            <a href="{{ route('filmes.detalhes', $filme->id) }}" class="btn btn-small btn-secondary" title="Ver detalhes">Detalhes</a>
+                                            <a href="{{ route('filmes.detalhes', $filme->id, false) }}" class="btn btn-small btn-secondary" title="Ver detalhes">Detalhes</a>
                                             <form method="POST" action="{{ route('listas.removeFilme', $lista->id) }}" style="display:inline-block; margin-left:0.5rem;">
                                                 @csrf
                                                 <input type="hidden" name="filme_id" value="{{ $filme->id }}">

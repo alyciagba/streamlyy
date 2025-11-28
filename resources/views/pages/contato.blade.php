@@ -3,8 +3,8 @@
 <main class="contact-main p-8 max-w-4xl mx-auto">
     <h2 class="text-2xl font-bold mb-6">Contato dos Desenvolvedores</h2>
 
-    @if(session('usuario'))
-        <p class="mb-4">Olá, {{ session('usuario') }}! Aqui estão os contatos dos desenvolvedores:</p>
+    @if(Auth::check())
+        <p class="mb-4">Olá, {{ Auth::user()->name }}! Aqui estão os contatos dos desenvolvedores:</p>
     @endif
 
     <div class="contact-row flex flex-wrap gap-6">
